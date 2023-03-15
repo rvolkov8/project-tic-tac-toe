@@ -1,0 +1,58 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  font-family: "Fredoka One", cursive;
+}
+
+:root {
+  margin: 0;
+  height: 100%;
+  font-size: 16px;
+
+  --main-bg-color: #fff7ed;
+  --cell-color-pressed: #ffedd5;
+  --main-font-color: #dc2626;
+}
+
+body {
+  background: var(--main-bg-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+
+  padding-top: 50px;
+}
+
+.headline {
+  font-size: 4rem;
+  color: var(--main-font-color);
+}
+
+.player-turn {
+  font-size: 2rem;
+  color: var(--main-font-color);
+}
+
+.game-grid {
+  display: grid;
+  background: #000;
+  grid-template: repeat(3, 100px) / repeat(3, 100px);
+  gap: 5px;
+}
+
+.game-grid > div {
+  background: var(--main-bg-color);
+
+  display: grid;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 2.5rem;
+}
+
+.game-grid > div:hover {
+  background: var(--cell-color-pressed);
+  cursor: pointer;
+}

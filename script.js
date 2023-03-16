@@ -4,6 +4,7 @@ const gameBoard = (() => {
   const gameBoardArr = [];
 
   const createGrid = () => {
+    gameGrid.classList.add('showed');
     for (let i = 0; i < 9; i += 1) {
       const cell = document.createElement('div');
       cell.textContent = '';
@@ -144,5 +145,5 @@ const displayController = (() => {
   return { startGame, playRound };
 })();
 
-displayController.startGame();
-displayController.playRound();
+// displayController.startGame();
+// displayController.playRound();

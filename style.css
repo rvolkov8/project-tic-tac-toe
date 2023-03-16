@@ -11,8 +11,10 @@
   font-size: 16px;
 
   --main-bg-color: #fff7ed;
-  --cell-color-pressed: #ffedd5;
+  --darker-bg-color: #ffedd5;
   --main-font-color: #dc2626;
+  --font-color-pressed: #b91c1c;
+  --green: #bbf7d0;
 }
 
 body {
@@ -35,11 +37,15 @@ body {
   color: var(--main-font-color);
 }
 
+/* Game grid */
 .container {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.game-grid {
+.game-grid.showed {
   display: grid;
   background: #000;
   grid-template: repeat(3, 100px) / repeat(3, 100px);
@@ -48,7 +54,6 @@ body {
 
 .game-grid > div {
   background: var(--main-bg-color);
-
   display: grid;
   justify-content: center;
   align-items: center;
@@ -57,10 +62,11 @@ body {
 }
 
 .game-grid > div:hover {
-  background: var(--cell-color-pressed);
+  background: var(--darker-bg-color);
   cursor: pointer;
 }
 
+/* Winner/Draw banner */
 .show-winner.active {
   position: absolute;
   top: 0;
@@ -74,4 +80,78 @@ body {
   align-content: center;
   color: #fff;
   font-size: 3rem;
+}
+
+/* Player buttons */
+.button-container {
+  width: 350px;
+  height: 200px;
+  position: absolute;
+}
+
+.button-container > button {
+  position: absolute;
+  cursor: pointer;
+}
+
+.human1,
+.human2,
+.ai1,
+.ai2 {
+  height: 50px;
+  width: 100px;
+  border: solid 1px var(--main-font-color);
+  color: var(--main-font-color);
+  background: var(--main-bg-color);
+  font-size: 1.2rem;
+}
+
+.human1:hover,
+.human2:hover,
+.ai1:hover,
+.ai2:hover {
+  background: var(--darker-bg-color);
+}
+
+.human1.pressed,
+.human2.pressed,
+.ai1.pressed,
+.ai2.pressed {
+  background: var(--green);
+}
+
+.human1 {
+  top: 0;
+  left: 0;
+}
+
+.ai1 {
+  top: 70px;
+  left: 0;
+}
+
+.human2 {
+  top: 0;
+  right: 0;
+}
+
+.ai2 {
+  top: 70px;
+  right: 0;
+}
+
+.start-game {
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  height: 35px;
+  border: none;
+  background: var(--main-font-color);
+  color: var(--main-bg-color);
+  font-size: 1.2rem;
+}
+
+.start-game:hover {
+  background: var(--font-color-pressed);
 }

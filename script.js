@@ -77,15 +77,35 @@ const playerFactory = (name, symbol) => ({ name, symbol });
 const displayController = (() => {
   const playerTurnHeadline = document.querySelector('.player-turn');
   const winnerElement = document.querySelector('.show-winner');
+
+  const buttonsContainer = document.querySelector('.button-container');
+  const humanOneButton = document.querySelector('.human1');
+  const humanTwoButton = document.querySelector('.human2');
+  const startGameButton = document.querySelector('.start-game');
+
   let playerOne;
   let playerTwo;
   let turn = 'playerOne';
 
+  // eslint-disable-next-line consistent-return
+  const createPlayers = () => {
+    playerTurnHeadline.textContent = 'Choose players';
+    humanOneButton.addEventListener('click', () => {
+      humanOneButton.classList.add('pressed');
+      playerOne = playerFactory('Player 1', 'X');
+    });
+    humanTwoButton.addEventListener('click', () => {
+      humanTwoButton.classList.add('pressed');
+      playerTwo = playerFactory('Player 2', 'O');
+    });
+    if ((playerOne, playerTwo)) {
+      return true;
+    }
+  };
+
   const startGame = () => {
     gameBoard.createGrid();
     gameBoard.showGameBoard();
-    playerOne = playerFactory('Rosty', 'X');
-    playerTwo = playerFactory('Adi', 'O');
   };
 
   const changeTurnHeadline = (playerParam, headlineElement) => {
@@ -142,8 +162,14 @@ const displayController = (() => {
     }
   };
 
-  return { startGame, playRound };
-})();
+  startGameButton.addEventListener('click', () => {
+    if (createPlayers()) {
+      buttonsContainer.style.display = 'none';
+      startGame();
+      playRound();
+    }
+  });
 
-// displayController.startGame();
-// displayController.playRound();
+  return { createPlayers };
+})();
+displayController.createPlayers();

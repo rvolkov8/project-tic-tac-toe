@@ -35,6 +35,10 @@ body {
   color: var(--main-font-color);
 }
 
+.container {
+  position: relative;
+}
+
 .game-grid {
   display: grid;
   background: #000;
@@ -55,4 +59,19 @@ body {
 .game-grid > div:hover {
   background: var(--cell-color-pressed);
   cursor: pointer;
+}
+
+.show-winner.active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  color: #fff;
+  font-size: 3rem;
 }

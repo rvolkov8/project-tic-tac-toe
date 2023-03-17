@@ -60,9 +60,9 @@ const gameBoard = (() => {
       if (checker(oIndexes, combo)) {
         return 'playerTwoWins';
       }
-      if (gameBoardArr.length === 9 && !gameBoardArr.includes(undefined)) {
-        return 'draw';
-      }
+    }
+    if (gameBoardArr.length === 9 && !gameBoardArr.includes(undefined)) {
+      return 'draw';
     }
 
     return false;

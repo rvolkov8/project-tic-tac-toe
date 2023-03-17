@@ -67,7 +67,7 @@ body {
 }
 
 /* Winner/Draw banner */
-.show-winner.active {
+.show-winner {
   position: absolute;
   top: 0;
   left: 0;
@@ -80,6 +80,8 @@ body {
   align-content: center;
   color: #fff;
   font-size: 2.5rem;
+
+  z-index: 1;
 }
 
 /* Player buttons */
@@ -153,5 +155,24 @@ body {
 }
 
 .start-game:hover {
+  background: var(--font-color-pressed);
+}
+
+/* Reset button */
+.reset-button {
+  position: absolute;
+  cursor: pointer;
+  bottom: -70px;
+  left: 0;
+  right: 0;
+
+  height: 35px;
+  border: none;
+  background: var(--main-font-color);
+  color: var(--main-bg-color);
+  font-size: 1.2rem;
+}
+
+.reset-button:hover {
   background: var(--font-color-pressed);
 }

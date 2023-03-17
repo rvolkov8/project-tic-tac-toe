@@ -1,7 +1,7 @@
 // Module game board
 const gameBoard = (() => {
   const gameGrid = document.querySelector('.game-grid');
-  const gameBoardArr = [];
+  let gameBoardArr = [];
 
   const createGrid = () => {
     gameGrid.classList.add('showed');
@@ -64,10 +64,18 @@ const gameBoard = (() => {
         return 'draw';
       }
     }
+
     return false;
   };
 
-  return { createGrid, showGameBoard, takeTurn, checkWinner };
+  const resetGrid = () => {
+    gameBoardArr = [];
+    gameGrid.innerHTML = '';
+    createGrid();
+    showGameBoard();
+  };
+
+  return { createGrid, showGameBoard, takeTurn, checkWinner, resetGrid };
 })();
 
 // Factory function for player creation
@@ -83,12 +91,16 @@ const displayController = (() => {
   const humanTwoButton = document.querySelector('.human2');
   const startGameButton = document.querySelector('.start-game');
 
+  const resetButton = document.querySelector('.reset-button');
+
   let playerOne;
   let playerTwo;
   let turn = 'playerOne';
 
   // eslint-disable-next-line consistent-return
   const createPlayers = () => {
+    resetButton.style.display = 'none';
+    winnerElement.style.display = 'none';
     playerTurnHeadline.textContent = 'Choose players';
     humanOneButton.addEventListener('click', () => {
       humanOneButton.classList.add('pressed');
@@ -114,15 +126,17 @@ const displayController = (() => {
   };
 
   const showWinner = (playerParam) => {
+    winnerElement.style.display = 'grid';
     winnerElement.textContent = `${playerParam.name} wins!`;
     playerTurnHeadline.textContent = 'Congrats! You did it!';
-    winnerElement.classList.add('active');
+    resetButton.style.display = 'block';
   };
 
   const showDraw = () => {
+    winnerElement.style.display = 'grid';
     winnerElement.textContent = 'Nobody wins';
     playerTurnHeadline.textContent = 'Draw! Play again';
-    winnerElement.classList.add('active');
+    resetButton.style.display = 'block';
   };
 
   const playRound = () => {
@@ -168,6 +182,14 @@ const displayController = (() => {
       startGame();
       playRound();
     }
+  });
+
+  resetButton.addEventListener('click', () => {
+    gameBoard.resetGrid();
+    winnerElement.style.display = 'none';
+    turn = 'playerOne';
+    playRound();
+    resetButton.style.display = 'none';
   });
 
   return { createPlayers };

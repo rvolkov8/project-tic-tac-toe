@@ -162,7 +162,7 @@ body {
 .reset-button {
   position: absolute;
   cursor: pointer;
-  bottom: -70px;
+  bottom: -60px;
   left: 0;
   right: 0;
 
@@ -174,5 +174,24 @@ body {
 }
 
 .reset-button:hover {
+  background: var(--font-color-pressed);
+}
+
+/* Change players button */
+.change-players-button {
+  position: absolute;
+  cursor: pointer;
+  bottom: -105px;
+  left: 0;
+  right: 0;
+
+  height: 35px;
+  border: none;
+  background: var(--main-font-color);
+  color: var(--main-bg-color);
+  font-size: 1.2rem;
+}
+
+.change-players-button:hover {
   background: var(--font-color-pressed);
 }

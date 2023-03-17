@@ -2,6 +2,7 @@
 const gameBoard = (() => {
   const gameGrid = document.querySelector('.game-grid');
   let gameBoardArr = [];
+  let computerTurnCellIndex;
 
   const createGrid = () => {
     gameGrid.classList.add('showed');
@@ -22,7 +23,9 @@ const gameBoard = (() => {
   };
 
   const takeTurn = (playerParam, arrIndex) => {
-    gameBoardArr[arrIndex] = playerParam.symbol;
+    if (gameBoardArr[arrIndex] === undefined) {
+      gameBoardArr[arrIndex] = playerParam.symbol;
+    }
   };
 
   const takeComputerTurn = (playerParam) => {
@@ -30,10 +33,13 @@ const gameBoard = (() => {
     if (gameBoardArr[randomNumber] === undefined) {
       gameBoardArr[randomNumber] = playerParam.symbol;
       showGameBoard();
+      computerTurnCellIndex = randomNumber;
     } else {
       takeComputerTurn(playerParam);
     }
   };
+
+  const getComputerTurnCellIndex = () => computerTurnCellIndex;
 
   const checker = (arr, target) => target.every((v) => arr.includes(v));
 
@@ -92,6 +98,7 @@ const gameBoard = (() => {
     checkWinner,
     resetGrid,
     takeComputerTurn,
+    getComputerTurnCellIndex,
   };
 })();
 
@@ -111,6 +118,7 @@ const displayController = (() => {
   const startGameButton = document.querySelector('.start-game');
 
   const resetButton = document.querySelector('.reset-button');
+  const changePlayersButton = document.querySelector('.change-players-button');
 
   let playerOne;
   let playerTwo;
@@ -119,6 +127,7 @@ const displayController = (() => {
   // eslint-disable-next-line consistent-return
   const createPlayers = () => {
     resetButton.style.display = 'none';
+    changePlayersButton.style.display = 'none';
     winnerElement.style.display = 'none';
     playerTurnHeadline.textContent = 'Choose players';
 
@@ -170,6 +179,7 @@ const displayController = (() => {
     winnerElement.textContent = `${playerParam.name} wins!`;
     playerTurnHeadline.textContent = 'Congrats! You did it!';
     resetButton.style.display = 'block';
+    changePlayersButton.style.display = 'block';
   };
 
   const showDraw = () => {
@@ -177,11 +187,19 @@ const displayController = (() => {
     winnerElement.textContent = 'Nobody wins';
     playerTurnHeadline.textContent = 'Draw! Play again';
     resetButton.style.display = 'block';
+    changePlayersButton.style.display = 'block';
   };
 
   const playRound = () => {
     const cellNodes = document.querySelectorAll('.cell');
-    playerTurnHeadline.textContent = `${playerOne.name}'s turn!`;
+
+    if (playerOne.name === 'Player 1' && playerTwo.name === 'Player 2') {
+      changeTurnHeadline(playerOne, playerTurnHeadline);
+    } else if (playerTwo.name === 'Computer 1') {
+      changeTurnHeadline(playerTwo, playerTurnHeadline);
+    } else if (playerTwo.name === 'Computer 2') {
+      changeTurnHeadline(playerOne, playerTurnHeadline);
+    }
 
     for (let i = 0; i < cellNodes.length; i += 1) {
       // eslint-disable-next-line no-loop-func
@@ -224,9 +242,14 @@ const displayController = (() => {
           default:
             break;
         }
-        cellNodes[i].removeEventListener('click', listener);
       };
-      cellNodes[i].addEventListener('click', listener);
+      // eslint-disable-next-line prefer-arrow-callback
+      cellNodes[i].addEventListener('click', function turnHandler() {
+        if (cellNodes[i] !== cellNodes[gameBoard.getComputerTurnCellIndex()]) {
+          listener();
+        }
+        this.removeEventListener('click', turnHandler);
+      });
     }
   };
 
@@ -242,8 +265,11 @@ const displayController = (() => {
         startGame();
         if (playerOne.name === 'Computer 1') {
           gameBoard.takeComputerTurn(playerOne);
+          changeTurnHeadline(playerTwo, playerTurnHeadline);
+          playRound();
+        } else {
+          playRound();
         }
-        playRound();
       }
     }
   });
@@ -257,6 +283,11 @@ const displayController = (() => {
     }
     playRound();
     resetButton.style.display = 'none';
+  });
+
+  changePlayersButton.addEventListener('click', () => {
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
   });
 
   return { createPlayers };
